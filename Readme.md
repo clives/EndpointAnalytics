@@ -61,4 +61,4 @@ sbt scalastyle
 
 Only for the post as we have only a few request per second in get.
 I would recommend to run it a few times (the first time, the result are
-kind of bad, depending one the OS,memory allocation,..)
+kind of bad, depending on the OS,memory allocation,..)
