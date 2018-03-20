@@ -20,9 +20,6 @@ class TestDbAnalyticService extends FlatSpec with BeforeAndAfter {
   val service = new UserAnalyticService(db)
 
 
-  before {
-    cleanDb(db.db.createSession())
-  }
 
   private def multipleCreateUserAnalytic( usersAnalytics : UserAnalytic*)={
     Future.sequence(usersAnalytics.map( service.createUserAnalytic _))
@@ -48,11 +45,4 @@ class TestDbAnalyticService extends FlatSpec with BeforeAndAfter {
     assert(result.nbrClicks === nbrClick)
     assert(result.nbrImpressions === nbrImpression)
   }
-
-
-  def cleanDb(session: Session) = {
-    val stmt = session.createStatement()
-    stmt.executeUpdate("DROP ALL OBJECTS")
-  }
-
 }

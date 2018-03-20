@@ -52,6 +52,10 @@ class UserAnalyticTableTest extends FlatSpec with BeforeAndAfter {
     stmt.executeUpdate("DROP ALL OBJECTS")
   }
 
-  after { db.close }
+  after {
+    cleanDb(session)
+    db.close
+
+  }
 
 }
