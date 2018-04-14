@@ -1,18 +1,13 @@
 package model.db
 
-
 import model.{Event, UserAnalytic}
-import org.scalatest.{BeforeAndAfter, FlatSpec}
-import service.FlywayService
+import org.scalatest.{AsyncFlatSpec, BeforeAndAfter, FlatSpec}
 import slick.jdbc.H2Profile
 import slick.jdbc.H2Profile.api._
 import slick.jdbc.meta._
-import slick.sql
 
-import scala.concurrent.duration._
-import scala.concurrent.Await
 
-class UserAnalyticTableTest extends FlatSpec with BeforeAndAfter {
+class UserAnalyticTableTest extends AsyncFlatSpec with BeforeAndAfter {
 
   var db: Database = _
   implicit var session: Session = _
@@ -26,24 +21,24 @@ class UserAnalyticTableTest extends FlatSpec with BeforeAndAfter {
   }
 
   "Operations using UserAnalytic entity" should "Work" in {
-    createSchema()
-    val tables = Await.result(db.run(MTable.getTables), 2 seconds)
-    assert(tables.size == 1)
 
-    Await.result(db.run(usersanalytic += UserAnalytic(timestamp = 1l, userid = 1l, event = Event.click)), 2 seconds)
-    Await.result(db.run(usersanalytic += UserAnalytic(timestamp = 1l, userid = 2l, event = Event.impression)), 2 seconds)
 
-    val q = for {
-      h <- usersanalytic
-    } yield (h)
+    for{
+      _ <- createSchema()
+      tables <- db.run(MTable.getTables)
+      _ <- db.run(usersanalytic += UserAnalytic(timestamp = 1l, userid = 1l, event = Event.click))
+      _ <- db.run(usersanalytic += UserAnalytic(timestamp = 1l, userid = 1l, event = Event.click))
+      useranalyticResult <- db.run(usersanalytic.result)
+    }yield{
 
-    val useranalyticResult = Await.result(db.run(usersanalytic.result), 2 seconds)
+      assert(tables.size == 1)
+      assert( useranalyticResult.size == 2)
+    }
 
-    assert( useranalyticResult.size == 2)
   }
 
   def createSchema() = {
-    Await.result(db.run((usersanalytic.schema).create), 2 seconds)
+    db.run((usersanalytic.schema).create)
   }
 
 
