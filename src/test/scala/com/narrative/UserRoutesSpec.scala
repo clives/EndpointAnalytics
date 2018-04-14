@@ -8,7 +8,7 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{Matchers, WordSpec}
 import service.UserAnalyticService
 import org.scalamock.scalatest.MockFactory
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 //#set-up
 class UserAnalyticRoutesSpec extends WordSpec with MockFactory with Matchers with ScalaFutures with ScalatestRouteTest
@@ -31,9 +31,6 @@ class UserAnalyticRoutesSpec extends WordSpec with MockFactory with Matchers wit
 
       val ourResponse = Analytic(0, 0, 0)
       (userAnalyticService.getLastHourAnalyticFrom _).expects(1l).returning(Future.successful(ourResponse))
-
-
-      val request = HttpRequest(uri = "/analytics")
 
       Get("/analytics?timestamp=1") ~> routes ~> check {
         status should ===(StatusCodes.OK)

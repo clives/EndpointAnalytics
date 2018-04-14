@@ -5,13 +5,11 @@ import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.MethodDirectives.get
 import akka.http.scaladsl.server.directives.MethodDirectives.post
 import akka.http.scaladsl.server.directives.RouteDirectives.complete
-
 import scala.concurrent.{ExecutionContext, Future}
 import model.{Event, UserAnalytic}
 import service.UserAnalyticService
 import akka.http.scaladsl.server.Directives._
 import model.Event.Event
-
 import scala.util.{Failure, Success}
 
 
@@ -42,7 +40,7 @@ trait UserAnalyticRoutes {
             },
             post {
 
-              parameters('timestamp.as[Long], 'user.as[Long], 'event.as[String]) { (timestamp, user, event) =>
+              parameters(('timestamp.as[Long], 'user.as[Long], 'event.as[String])) { (timestamp, user, event) =>
 
 
                 val f = Event.values.filter(_ != Event.NotIdentified).find(_.toString == event).map {

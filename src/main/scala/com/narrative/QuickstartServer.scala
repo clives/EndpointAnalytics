@@ -2,7 +2,7 @@ package com.narrative
 
 import scala.concurrent.{ Await, ExecutionContext }
 import scala.concurrent.duration.Duration
-import akka.actor.{ ActorRef, ActorSystem }
+import akka.actor.{ ActorSystem }
 import akka.event.Logging
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route

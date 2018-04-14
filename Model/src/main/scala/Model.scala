@@ -9,7 +9,6 @@ object Event extends Enumeration {
 import Event._
 
 
-
 case class UserAnalytic(timestamp: Long, userid: Long, event: Event)
 
 object UserAnalytic{

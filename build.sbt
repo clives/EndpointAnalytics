@@ -4,19 +4,9 @@ lazy val slickVersion = "3.2.0-M2"
 lazy val scalaTestVersion = "3.0.1"
 
 scalaVersion in ThisBuild:= "2.12.4"
-/*
-lazy val root = (project in file(".")).
-  settings(
-    inThisBuild(List(
-      organization    := "com.narrative",
-      scalaVersion    := "2.12.4"
-    )),
-    name := "NarrativeEndpoint",
-    libraryDependencies ++= Seq(
 
-    )
-  )*/
 
+scalacOptions ++= Seq( "-Xlint", "-Ywarn-dead-code", "-Ywarn-inaccessible","-Ywarn-unused-import", "-Ywarn-value-discard")
 
 lazy val `http-service` = project
   .in(file("."))

@@ -2,7 +2,6 @@ package service
 
 import java.sql.Timestamp
 import java.time.{Instant, LocalDateTime, ZoneOffset}
-
 import model.Event.Event
 import model.db.DAO
 import model.{Analytic, Event, UserAnalytic}
