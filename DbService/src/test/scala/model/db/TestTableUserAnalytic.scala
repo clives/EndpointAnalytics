@@ -1,7 +1,7 @@
 package model.db
 
 import model.{Event, UserAnalytic}
-import org.scalatest.{AsyncFlatSpec, BeforeAndAfter, FlatSpec}
+import org.scalatest.{AsyncFlatSpec, BeforeAndAfter}
 import slick.jdbc.H2Profile
 import slick.jdbc.H2Profile.api._
 import slick.jdbc.meta._
@@ -21,8 +21,6 @@ class UserAnalyticTableTest extends AsyncFlatSpec with BeforeAndAfter {
   }
 
   "Operations using UserAnalytic entity" should "Work" in {
-
-
     for{
       _ <- createSchema()
       tables <- db.run(MTable.getTables)
@@ -30,17 +28,14 @@ class UserAnalyticTableTest extends AsyncFlatSpec with BeforeAndAfter {
       _ <- db.run(usersanalytic += UserAnalytic(timestamp = 1l, userid = 1l, event = Event.click))
       useranalyticResult <- db.run(usersanalytic.result)
     }yield{
-
       assert(tables.size == 1)
       assert( useranalyticResult.size == 2)
     }
-
   }
 
   def createSchema() = {
     db.run((usersanalytic.schema).create)
   }
-
 
   def cleanDb(session: Session) = {
     val stmt = session.createStatement()
@@ -50,7 +45,6 @@ class UserAnalyticTableTest extends AsyncFlatSpec with BeforeAndAfter {
   after {
     cleanDb(session)
     db.close
-
   }
 
 }
